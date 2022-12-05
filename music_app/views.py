@@ -22,11 +22,33 @@ class ArtistUpdateView(UpdateView):
 
 class ArtistListView(ListView):
     model= Artist
-    form_class = ArtistForm 
+    context_object_name = 'artists'
     template_name = 'list_artists.html'
-    success_url = reverse_lazy('artists')
 
 def deleteArtist(request, pk):
     artist = Artist.objects.get(id=pk)
     artist.delete()
-    return redirect('/artists')
+    return HttpResponseRedirect(reverse_lazy('artists'))
+
+class SongCreateView(CreateView): 
+    model = 'Song'
+    form_class = SongForm
+    template_name = 'add_song.html'
+    success_url = reverse_lazy('songs')
+    
+class SongUpdateView(UpdateView):
+    model = Song
+    form_class = SongForm
+    template_name = 'edit_song.html'
+    success_url = reverse_lazy('songs')
+
+class SongListView(ListView):
+    model= Song
+    form_class = SongForm
+    template_name = 'list_songs.html'
+    success_url = reverse_lazy('songs')
+
+def deleteSong(request, pk):
+    song = Song.objects.get(id=pk)
+    song.delete()
+    return redirect('/songs')
